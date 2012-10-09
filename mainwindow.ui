@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>800</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Gerenciador SMESAP</string>
+  </property>
+  <widget class="QWidget" name="centralWidget"/>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>800</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menu_arquivo">
+    <property name="title">
+     <string>&amp;Arquivo</string>
+    </property>
+    <addaction name="action_exportar_para_csv"/>
+    <addaction name="action_sair"/>
+   </widget>
+   <widget class="QMenu" name="menu_editar">
+    <property name="title">
+     <string>&amp;Editar</string>
+    </property>
+    <widget class="QMenu" name="menu_excluir">
+     <property name="title">
+      <string>&amp;Excluir</string>
+     </property>
+     <addaction name="action_excluir_professores"/>
+     <addaction name="action_excluir_situacoes"/>
+     <addaction name="action_excluir_categorias"/>
+     <addaction name="action_excluir_reg_jur"/>
+     <addaction name="action_excluir_sedes"/>
+     <addaction name="action_excluir_disciplinas"/>
+    </widget>
+    <addaction name="action_editar_professores"/>
+    <addaction name="action_editar_situacao"/>
+    <addaction name="action_editar_categoria"/>
+    <addaction name="action_editar_reg_juridico"/>
+    <addaction name="action_editar_sede"/>
+    <addaction name="action_editar_disciplinas"/>
+    <addaction name="menu_excluir"/>
+   </widget>
+   <widget class="QMenu" name="menu_ajuda">
+    <property name="title">
+     <string>A&amp;juda</string>
+    </property>
+    <addaction name="action_sobre_gsmesap"/>
+    <addaction name="action_sobre_a_qt"/>
+   </widget>
+   <widget class="QMenu" name="menu_configuracoes">
+    <property name="title">
+     <string>&amp;Configurações</string>
+    </property>
+    <addaction name="action_configurar_conexao"/>
+   </widget>
+   <widget class="QMenu" name="menu_Inserir">
+    <property name="title">
+     <string>&amp;Inserir</string>
+    </property>
+    <addaction name="action_inserir_situacao"/>
+    <addaction name="action_inserir_categoria"/>
+    <addaction name="action_inserir_reg_juridico"/>
+    <addaction name="action_inserir_sede"/>
+    <addaction name="action_inserir_disciplinas"/>
+    <addaction name="action_inserir_professor"/>
+   </widget>
+   <addaction name="menu_arquivo"/>
+   <addaction name="menu_editar"/>
+   <addaction name="menu_Inserir"/>
+   <addaction name="menu_configuracoes"/>
+   <addaction name="menu_ajuda"/>
+  </widget>
+  <widget class="QToolBar" name="mainToolBar">
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+  </widget>
+  <widget class="QStatusBar" name="statusBar"/>
+  <action name="action_exportar_para_csv">
+   <property name="text">
+    <string>&amp;Exportar para csv...</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+E</string>
+   </property>
+  </action>
+  <action name="action_sair">
+   <property name="text">
+    <string>&amp;Sair</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Q</string>
+   </property>
+  </action>
+  <action name="action_sobre_gsmesap">
+   <property name="text">
+    <string>&amp;Sobre GSMESAP...</string>
+   </property>
+  </action>
+  <action name="action_sobre_a_qt">
+   <property name="text">
+    <string>S&amp;obre a Qt...</string>
+   </property>
+  </action>
+  <action name="action_configurar_conexao">
+   <property name="text">
+    <string>&amp;Configurar Conexão...</string>
+   </property>
+  </action>
+  <action name="action_editar_professores">
+   <property name="text">
+    <string>&amp;Professores</string>
+   </property>
+  </action>
+  <action name="action_editar_situacao">
+   <property name="text">
+    <string>&amp;Situação</string>
+   </property>
+  </action>
+  <action name="action_editar_categoria">
+   <property name="text">
+    <string>&amp;Categoria</string>
+   </property>
+  </action>
+  <action name="action_editar_reg_juridico">
+   <property name="text">
+    <string>&amp;Regime Jurídico</string>
+   </property>
+  </action>
+  <action name="action_editar_sede">
+   <property name="text">
+    <string>&amp;Sede</string>
+   </property>
+  </action>
+  <action name="action_editar_disciplinas">
+   <property name="text">
+    <string>&amp;Disciplinas</string>
+   </property>
+  </action>
+  <action name="action_inserir_situacao">
+   <property name="text">
+    <string>&amp;Situação...</string>
+   </property>
+  </action>
+  <action name="action_inserir_categoria">
+   <property name="text">
+    <string>&amp;Categoria...</string>
+   </property>
+  </action>
+  <action name="action_inserir_reg_juridico">
+   <property name="text">
+    <string>&amp;Regime Jurídico...</string>
+   </property>
+  </action>
+  <action name="action_inserir_sede">
+   <property name="text">
+    <string>S&amp;ede...</string>
+   </property>
+  </action>
+  <action name="action_inserir_disciplinas">
+   <property name="text">
+    <string>&amp;Disciplinas...</string>
+   </property>
+  </action>
+  <action name="action_inserir_professor">
+   <property name="text">
+    <string>&amp;Professor...</string>
+   </property>
+  </action>
+  <action name="action_excluir_professores">
+   <property name="text">
+    <string>Professores...</string>
+   </property>
+  </action>
+  <action name="action_excluir_situacoes">
+   <property name="text">
+    <string>Situações...</string>
+   </property>
+  </action>
+  <action name="action_excluir_categorias">
+   <property name="text">
+    <string>Categorias...</string>
+   </property>
+  </action>
+  <action name="action_excluir_reg_jur">
+   <property name="text">
+    <string>Regimes Jurídicos...</string>
+   </property>
+  </action>
+  <action name="action_excluir_sedes">
+   <property name="text">
+    <string>Sede...</string>
+   </property>
+  </action>
+  <action name="action_excluir_disciplinas">
+   <property name="text">
+    <string>Disciplinas...</string>
+   </property>
+  </action>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <resources/>
+ <connections/>
+</ui>
