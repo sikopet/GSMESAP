@@ -29,7 +29,7 @@ void DialogInserirDados::acaoDeInserirOsDados()
 
     switch(tabelaAtiva)
     {
-    case disciplinas:
+    case disciplina:
         inserir = new InserirDados("disciplina",
                                    "disciplina",
                                    ui->lineEdit_Inserir->text());
@@ -77,7 +77,7 @@ QString DialogInserirDados::geraConsulta()
     case categoria:
         q = "SELECT categoria_id AS Id, categoria AS Categoria FROM categoria";
         break;
-    case disciplinas:
+    case disciplina:
         q = "SELECT disciplina_id AS Id, disciplina AS Disciplina FROM disciplina";
         break;
     case regime_juridico:

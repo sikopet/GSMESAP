@@ -11,7 +11,7 @@ namespace GSMESAP
      *
      *
      */
-    enum tabelasDoBancoDeDados {categoria, disciplinas, professor,
+    enum tabelasDoBancoDeDados {categoria, disciplina, professor,
                                 regime_juridico,sede, situacao};
 
     /**

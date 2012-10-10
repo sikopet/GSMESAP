@@ -53,10 +53,10 @@ void DialogExcluirRegistro::procuraRegistro()
                 "WHERE sede like '%%1%'").arg(ui->input_codigo->text());
         break;
     case situacao:
-        q = QString("SELECT situacao_id as Id, situacao as Situação FROM situacao "
+        q = QString("SELECT situacao_id as Id, situacao as \"Situação\" FROM situacao "
                 "WHERE situacao like '%%1%'").arg(ui->input_codigo->text());
         break;
-    case disciplinas:
+    case disciplina:
         q = QString("SELECT disciplina_id as Id, disciplina as Disciplina FROM disciplina "
                     "WHERE disciplina LIKE '%%1%'").arg(ui->input_codigo->text());
         break;
@@ -117,7 +117,7 @@ void DialogExcluirRegistro::excluiItensSelecionados()
             if (!query->exec(QString("DELETE FROM situacao WHERE situacao_id='%1'").arg(codParaExcluir.at(i))))
                 outputList << "Situação: "  << query->lastError().text();
             break;
-        case disciplinas:
+        case disciplina:
             if (!query->exec(QString("DELETE FROM disciplina WHERE disciplina_id='%1'").arg(codParaExcluir.at(i))))
                 outputList << "Disciplias: " << query->lastError().text();
             break;

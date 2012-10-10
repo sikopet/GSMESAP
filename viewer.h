@@ -28,10 +28,7 @@ private slots:
 
 private:
     void exibeTabelaProfessor();
-    void exibeTabelaRegJuridico();
-    void exibeTabelaCategoria();
-    void exibeTabelaSede();
-    void exibeTabelaSituacao();
+    void exibeTabelaSemRelacao(QString nomeTabela, QStringList colunas);
     void setaModeloDaVisao(QAbstractItemModel *model, bool relationalDelegate);
 
     QSortFilterProxyModel *proxyModel;

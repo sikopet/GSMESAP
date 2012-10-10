@@ -11,23 +11,21 @@ void Viewer::setaTabelaAtiva(GSMESAP::tabelasDoBancoDeDados tb)
     {
     case GSMESAP::professor:
         exibeTabelaProfessor();
-        setWindowTitle("Professores");
         break;
     case GSMESAP::regime_juridico:
-        exibeTabelaRegJuridico();
-        setWindowTitle("Regime Jurí­dico");
+        exibeTabelaSemRelacao("regime_juridico", QStringList() << "ID" << "Regime Jurídico");
         break;
     case GSMESAP::categoria:
-        exibeTabelaCategoria();
-        setWindowTitle("Categoria");
+        exibeTabelaSemRelacao("categoria", QStringList() << "ID" << "Categoria");
         break;
     case GSMESAP::sede:
-        exibeTabelaSede();
-        setWindowTitle("Sede");
+        exibeTabelaSemRelacao("sede", QStringList() << "ID" << "Sede");
         break;
     case GSMESAP::situacao:
-        exibeTabelaSituacao();
-        setWindowTitle("Situacão");
+        exibeTabelaSemRelacao("situacao", QStringList() << "ID" << "Situação");
+        break;
+    case GSMESAP::disciplina:
+        exibeTabelaSemRelacao("disciplina", QStringList() << "ID" << "Disciplina");
         break;
     }
 }
@@ -75,14 +73,14 @@ void Viewer::exibeTabelaProfessor()
     setaModeloDaVisao(model, true);
 }
 
-void Viewer::exibeTabelaRegJuridico()
+void Viewer::exibeTabelaSemRelacao(QString nomeTabela, QStringList colunas)
 {
     if (!QSqlDatabase::database("default").isOpen())
         return;
 
     QSqlTableModel *model = new QSqlTableModel(this, QSqlDatabase::database("default"));
 
-    model->setTable("regime_juridico");
+    model->setTable(nomeTabela);
     model->setEditStrategy(QSqlTableModel::OnRowChange);
 
     if(!model->select())
@@ -92,85 +90,18 @@ void Viewer::exibeTabelaRegJuridico()
         return;
     }
 
-    model->setHeaderData(0, Qt::Horizontal, tr("Id"));
-    model->setHeaderData(1, Qt::Horizontal, "Regime Jurídico");
+    for (int i = 0; i < colunas.count(); ++i)
+        model->setHeaderData(i, Qt::Horizontal, colunas.at(i));
 
     setaModeloDaVisao(model, false);
 }
 
-void Viewer::exibeTabelaCategoria()
-{
-    if (!QSqlDatabase::database("default").isOpen())
-        return;
-
-    QSqlTableModel *model = new QSqlTableModel(this, QSqlDatabase::database("default"));
-
-    model->setTable("categoria");
-    model->setEditStrategy(QSqlTableModel::OnRowChange);
-
-    if(!model->select())
-    {
-        QMessageBox::critical(this, "Erro ao selecionar tabela",
-                              QString("editaTabelaCategria(): %1").arg(model->lastError().text()));
-        return;
-    }
-
-    model->setHeaderData(0, Qt::Horizontal, tr("Id"));
-    model->setHeaderData(1, Qt::Horizontal, "Categoria");
-
-    setaModeloDaVisao(model, false);
-}
-
-void Viewer::exibeTabelaSede()
-{
-    if (!QSqlDatabase::database("default").isOpen())
-        return;
-
-    QSqlTableModel *model = new QSqlTableModel(this, QSqlDatabase::database("default"));
-
-    model->setTable("sede");
-    model->setEditStrategy(QSqlTableModel::OnRowChange);
-
-    if(!model->select())
-    {
-        QMessageBox::critical(this, "Erro ao selecionar tabela",
-                              QString("editaTabelaSde(): %1").arg(model->lastError().text()));
-        return;
-    }
-
-    model->setHeaderData(0, Qt::Horizontal, tr("Id"));
-    model->setHeaderData(1, Qt::Horizontal, "Sede");
-
-    setaModeloDaVisao(model, false);
-}
-
-void Viewer::exibeTabelaSituacao()
-{
-    if (!QSqlDatabase::database("default").isOpen())
-        return;
-
-    QSqlTableModel *model = new QSqlTableModel(this, QSqlDatabase::database("default"));
-
-    model->setTable("situacao");
-    model->setEditStrategy(QSqlTableModel::OnRowChange);
-
-    if(!model->select())
-    {
-        QMessageBox::critical(this, "Erro ao selecionar tabela",
-                              QString("editaTabelaSituacao(): %1").arg(model->lastError().text()));
-        return;
-    }
-
-    model->setHeaderData(0, Qt::Horizontal, tr("Id"));
-    model->setHeaderData(1, Qt::Horizontal, tr("Situação"));
-
-    setaModeloDaVisao(model, false);
-}
 
 void Viewer::setaModeloDaVisao(QAbstractItemModel *model, bool relationalDelegate)
 {
     QVBoxLayout *v_layout = new QVBoxLayout;
     QLineEdit *campoDePesquisa = new QLineEdit;
+    campoDePesquisa->setPlaceholderText("Filtrar...");
     QTableView *tableView = new QTableView;
 
     v_layout->addWidget(campoDePesquisa);

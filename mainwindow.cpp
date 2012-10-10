@@ -8,6 +8,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     tabwidget = new QTabWidget;
     tabwidget->setTabsClosable(true);
+    tabwidget->setDocumentMode(true);
 
     connect(ui->action_configurar_conexao, SIGNAL(triggered()), this,
             SLOT(abre_formulario_para_configurar_conexao()));
@@ -35,7 +36,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 void MainWindow::abre_formulario_para_configurar_conexao()
 {
-    ConnectionSettings *f = new ConnectionSettings;
+    ConnectionSettings *f = new ConnectionSettings(this);
     f->setWindowFlags(Qt::Dialog);
     f->show();
 }
@@ -48,21 +49,22 @@ void MainWindow::abre_formulario_para_inserir_registro(QAction *act)
         DialogInserirDados *s;
 
         if (ui->action_inserir_categoria == act)
-            s = new DialogInserirDados(categoria);
+            s = new DialogInserirDados(categoria, this);
         if (ui->action_inserir_disciplinas == act)
-            s = new DialogInserirDados(disciplinas);
+            s = new DialogInserirDados(disciplina, this);
         if (ui->action_inserir_reg_juridico == act)
-            s = new DialogInserirDados(regime_juridico);
+            s = new DialogInserirDados(regime_juridico, this);
         if (ui->action_inserir_sede == act)
-            s = new DialogInserirDados(sede);
+            s = new DialogInserirDados(sede, this);
         if (ui->action_inserir_situacao == act)
-            s = new DialogInserirDados(situacao);
+            s = new DialogInserirDados(situacao, this);
 
         s->show();
     }
     else
     {
-        DialogInserirProfessor *p = new DialogInserirProfessor;
+        DialogInserirProfessor *p = new DialogInserirProfessor(this);
+        p->setWindowFlags(Qt::Dialog);
         p->show();
     }
 }
@@ -81,7 +83,7 @@ void MainWindow::abre_formulario_para_excluir_registro(QAction *act)
     if (ui->action_excluir_sedes == act)
         exc = new DialogExcluirRegistro(sede);
     if (ui->action_excluir_disciplinas == act)
-        exc = new DialogExcluirRegistro(disciplinas);
+        exc = new DialogExcluirRegistro(disciplina);
 
     exc->show();
 }
@@ -101,7 +103,7 @@ void MainWindow::abre_visoes(QAction *act)
     if (act == ui->action_editar_sede)
         adiciona_tab(v, "Sede", GSMESAP::sede);
     if (act == ui->action_editar_disciplinas)
-        adiciona_tab(v, "Disciplina", GSMESAP::disciplinas);
+        adiciona_tab(v, "Disciplina", GSMESAP::disciplina);
 }
 
 void MainWindow::adiciona_tab(Viewer *view, QString tabName, GSMESAP::tabelasDoBancoDeDados tb)
