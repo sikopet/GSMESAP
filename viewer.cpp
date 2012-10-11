@@ -102,6 +102,7 @@ void Viewer::setaModeloDaVisao(QAbstractItemModel *model, bool relationalDelegat
     QVBoxLayout *v_layout = new QVBoxLayout;
     QLineEdit *campoDePesquisa = new QLineEdit;
     campoDePesquisa->setPlaceholderText("Filtrar...");
+
     QTableView *tableView = new QTableView;
 
     v_layout->addWidget(campoDePesquisa);

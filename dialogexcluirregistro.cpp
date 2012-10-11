@@ -42,27 +42,27 @@ void DialogExcluirRegistro::procuraRegistro()
     {
     case regime_juridico:
         q = QString("SELECT reg_jur_id as Id, regime_juridico as \"Regime Jurídico\" FROM regime_juridico "
-                "WHERE regime_juridico like '%%1%'").arg(ui->input_codigo->text());
+                "WHERE regime_juridico ILIKE '%%1%'").arg(ui->input_codigo->text());
         break;
     case categoria:
         q = QString("SELECT categoria_id as Id, categoria as Categoria FROM categoria "
-                "WHERE categoria like '%%1%'").arg(ui->input_codigo->text());
+                "WHERE categoria ILIKE '%%1%'").arg(ui->input_codigo->text());
         break;
     case sede:
         q = QString("SELECT sede_id as Id, sede as Sede FROM sede "
-                "WHERE sede like '%%1%'").arg(ui->input_codigo->text());
+                "WHERE sede ILIKE '%%1%'").arg(ui->input_codigo->text());
         break;
     case situacao:
         q = QString("SELECT situacao_id as Id, situacao as \"Situação\" FROM situacao "
-                "WHERE situacao like '%%1%'").arg(ui->input_codigo->text());
+                "WHERE situacao ILIKE '%%1%'").arg(ui->input_codigo->text());
         break;
     case disciplina:
         q = QString("SELECT disciplina_id as Id, disciplina as Disciplina FROM disciplina "
-                    "WHERE disciplina LIKE '%%1%'").arg(ui->input_codigo->text());
+                    "WHERE disciplina ILIKE '%%1%'").arg(ui->input_codigo->text());
         break;
     case professor:
         q = QString("SELECT professor_id as Id, nome as Nome, dn as DN FROM professor "
-                "WHERE nome like '%%1%'").arg(ui->input_codigo->text());
+                "WHERE nome ILIKE '%%1%'").arg(ui->input_codigo->text());
         break;
     }
 

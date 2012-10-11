@@ -10,18 +10,33 @@ MainWindow::MainWindow(QWidget *parent) :
     tabwidget->setTabsClosable(true);
     tabwidget->setDocumentMode(true);
 
-    connect(ui->action_configurar_conexao, SIGNAL(triggered()), this,
-            SLOT(abre_formulario_para_configurar_conexao()));
+    // Menu Editar
     connect(ui->menu_editar, SIGNAL(triggered(QAction*)), this,
             SLOT(abre_visoes(QAction*)));
-    connect(tabwidget, SIGNAL(tabCloseRequested(int)), this,
-            SLOT(fecha_tab(int)));
-    connect(ui->menu_Inserir, SIGNAL(triggered(QAction*)), this,
+
+    // Menu Inserir
+    connect(ui->menu_inserir, SIGNAL(triggered(QAction*)), this,
             SLOT(abre_formulario_para_inserir_registro(QAction*)));
+
+    // Menu Inserir -> Excluir
     connect(ui->menu_excluir, SIGNAL(triggered(QAction*)), this,
             SLOT(abre_formulario_para_excluir_registro(QAction*)));
+
+    // Menu Ferramentas
+    connect(ui->action_ferramentas_documentos, SIGNAL(triggered()), this,
+            SLOT(abre_forumulario_ferramentas_documentos()));
+
+    // Configurar conexão
+    connect(ui->action_configurar_conexao, SIGNAL(triggered()), this,
+            SLOT(abre_formulario_para_configurar_conexao()));
+
+    // Exporta para CSV
     connect(ui->action_exportar_para_csv, SIGNAL(triggered()), this,
             SLOT(exporta_para_csv()));
+
+    // Fecha uma aba
+    connect(tabwidget, SIGNAL(tabCloseRequested(int)), this,
+            SLOT(fecha_tab(int)));
 
     //Tenta Conectar automaticamente
     QSettings set;
@@ -44,28 +59,28 @@ void MainWindow::abre_formulario_para_configurar_conexao()
 void MainWindow::abre_formulario_para_inserir_registro(QAction *act)
 {
 
-    if (ui->action_inserir_professor != act)
-    {
-        DialogInserirDados *s;
-
-        if (ui->action_inserir_categoria == act)
-            s = new DialogInserirDados(categoria, this);
-        if (ui->action_inserir_disciplinas == act)
-            s = new DialogInserirDados(disciplina, this);
-        if (ui->action_inserir_reg_juridico == act)
-            s = new DialogInserirDados(regime_juridico, this);
-        if (ui->action_inserir_sede == act)
-            s = new DialogInserirDados(sede, this);
-        if (ui->action_inserir_situacao == act)
-            s = new DialogInserirDados(situacao, this);
-
-        s->show();
-    }
-    else
+    if (act == ui->action_inserir_professor)
     {
         DialogInserirProfessor *p = new DialogInserirProfessor(this);
         p->setWindowFlags(Qt::Dialog);
         p->show();
+    }
+    else
+    {
+        DialogInserirDados *s;
+
+        if (act == ui->action_inserir_categoria)
+            s = new DialogInserirDados(categoria, this);
+        else if (act == ui->action_inserir_disciplinas)
+            s = new DialogInserirDados(disciplina, this);
+        else if (act == ui->action_inserir_reg_juridico)
+            s = new DialogInserirDados(regime_juridico, this);
+        else if (act == ui->action_inserir_sede)
+            s = new DialogInserirDados(sede, this);
+        else if (act == ui->action_inserir_situacao)
+            s = new DialogInserirDados(situacao, this);
+
+        s->show();
     }
 }
 
@@ -88,9 +103,16 @@ void MainWindow::abre_formulario_para_excluir_registro(QAction *act)
     exc->show();
 }
 
+void MainWindow::abre_forumulario_ferramentas_documentos()
+{
+    DialogDocumentos *docs = new DialogDocumentos(this);
+    docs->setWindowFlags(Qt::Dialog);
+    docs->show();
+}
+
 void MainWindow::abre_visoes(QAction *act)
 {
-    Viewer *v = new Viewer;
+    Viewer *v = new Viewer(this);
 
     if (act == ui->action_editar_professores)
         adiciona_tab(v, "Professores", GSMESAP::professor);

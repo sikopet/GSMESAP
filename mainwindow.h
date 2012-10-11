@@ -12,6 +12,7 @@
 #include "dialoginserirprofessor.h"
 #include "dialogexcluirregistro.h"
 #include "exportatabela.h"
+#include "dialogdocumentos.h"
 
 using namespace GSMESAP;
 
@@ -29,10 +30,11 @@ public:
     
 private slots:
     void abre_formulario_para_configurar_conexao();
-    void abre_visoes(QAction *act);
+    void abre_forumulario_ferramentas_documentos();
     void abre_formulario_para_inserir_registro(QAction *act);
-    void fecha_tab(int index);
     void abre_formulario_para_excluir_registro(QAction *act);
+    void abre_visoes(QAction *act);
+    void fecha_tab(int index);
     void exporta_para_csv();
 
 private:

@@ -66,7 +66,7 @@
     </property>
     <addaction name="action_configurar_conexao"/>
    </widget>
-   <widget class="QMenu" name="menu_Inserir">
+   <widget class="QMenu" name="menu_inserir">
     <property name="title">
      <string>&amp;Inserir</string>
     </property>
@@ -77,9 +77,16 @@
     <addaction name="action_inserir_disciplinas"/>
     <addaction name="action_inserir_professor"/>
    </widget>
+   <widget class="QMenu" name="menu_ferramentas">
+    <property name="title">
+     <string>&amp;Ferramentas</string>
+    </property>
+    <addaction name="action_ferramentas_documentos"/>
+   </widget>
    <addaction name="menu_arquivo"/>
    <addaction name="menu_editar"/>
-   <addaction name="menu_Inserir"/>
+   <addaction name="menu_inserir"/>
+   <addaction name="menu_ferramentas"/>
    <addaction name="menu_configuracoes"/>
    <addaction name="menu_ajuda"/>
   </widget>
@@ -211,6 +218,16 @@
   <action name="action_excluir_disciplinas">
    <property name="text">
     <string>Disciplinas...</string>
+   </property>
+  </action>
+  <action name="action_inserir_documento">
+   <property name="text">
+    <string>Documento...</string>
+   </property>
+  </action>
+  <action name="action_ferramentas_documentos">
+   <property name="text">
+    <string>&amp;Documentos...</string>
    </property>
   </action>
  </widget>

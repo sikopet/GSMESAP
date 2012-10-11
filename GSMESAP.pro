@@ -21,7 +21,8 @@ SOURCES += main.cpp\
     dialoginserirdados.cpp \
     dialoginserirprofessor.cpp \
     dialogexcluirregistro.cpp \
-    exportatabela.cpp
+    exportatabela.cpp \
+    dialogdocumentos.cpp
 
 HEADERS  += mainwindow.h \
     connectionsettings.h \
@@ -32,13 +33,15 @@ HEADERS  += mainwindow.h \
     dialoginserirdados.h \
     dialoginserirprofessor.h \
     dialogexcluirregistro.h \
-    exportatabela.h
+    exportatabela.h \
+    dialogdocumentos.h
 
 FORMS    += mainwindow.ui \
     connectionsettings.ui \
     dialoginserirdados.ui \
     dialoginserirprofessor.ui \
-    dialogexcluirregistro.ui
+    dialogexcluirregistro.ui \
+    dialogdocumentos.ui
 
 OTHER_FILES += \
     COPYING.txt
