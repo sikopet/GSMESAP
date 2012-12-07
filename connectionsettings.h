@@ -11,9 +11,6 @@ namespace Ui {
     class ConnectionSettings;
 }
 
-/**
- * @brief The ConnectionSettings class
- */
 class ConnectionSettings : public QDialog
 {
     Q_OBJECT
@@ -29,11 +26,12 @@ private slots:
     void saveUsername(const QString text);
     void savePassword(const QString text);
     void saveDbName(const QString text);
+    void tentaHabilitarBotaoConectar();
+    void tentaHabilitarBotaoLimpar();
+    void manterConectado(bool value);
     void buttonConnectPressed();
     void buttonDisconnectPressed();
     void buttonClearPressed();
-    void habilitaBotaoConectar();
-    void manterConectado(bool value);
 
 signals:
     void conectadoABaseDeDados();
@@ -42,7 +40,8 @@ signals:
 private:
     Ui::ConnectionSettings *ui;
     QSettings *settings;
-    bool verificaCampos();
+    bool verificaCamposPreenchidos();
+    bool verificaCamposSujos();
 };
 
 #endif // CONNECTIONSETTINGS_H

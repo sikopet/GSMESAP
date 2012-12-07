@@ -13,10 +13,12 @@ DialogExcluirRegistro::DialogExcluirRegistro(tabelasDoBancoDeDados tb, QWidget *
 
     connect(ui->input_codigo, SIGNAL(textChanged(QString)),
             this, SLOT(verificaCampo()));
-    connect(ui->button_ir, SIGNAL(clicked()),
-            this, SLOT(procuraRegistro()));
     connect(ui->input_codigo, SIGNAL(returnPressed()),
             this, SLOT(procuraRegistro()));
+
+    connect(ui->button_ir, SIGNAL(clicked()),
+            this, SLOT(procuraRegistro()));
+
     connect(ui->button_excluir, SIGNAL(released()),
             this, SLOT(excluiItensSelecionados()));
 }
@@ -28,10 +30,7 @@ DialogExcluirRegistro::~DialogExcluirRegistro()
 
 void DialogExcluirRegistro::verificaCampo()
 {
-    if (ui->input_codigo->text().isEmpty())
-        ui->button_ir->setEnabled(false);
-    else
-        ui->button_ir->setEnabled(true);
+    ui->button_ir->setDisabled(ui->input_codigo->text().isEmpty());
 }
 
 void DialogExcluirRegistro::procuraRegistro()
@@ -73,21 +72,18 @@ void DialogExcluirRegistro::procuraRegistro()
     ui->tableView->resizeColumnsToContents();
 
 
-    connect(ui->tableView->selectionModel(), SIGNAL(selectionChanged(const QItemSelection &, const QItemSelection &)),
-            this, SLOT(itensSelecionados(QItemSelection,QItemSelection)));
+    connect(ui->tableView->selectionModel(), SIGNAL(selectionChanged(QItemSelection,QItemSelection)),
+            this, SLOT(itensSelecionados(const QItemSelection,const QItemSelection)));
 }
 
-void DialogExcluirRegistro::itensSelecionados(const QItemSelection &, const QItemSelection &)
+void DialogExcluirRegistro::itensSelecionados(const QItemSelection selecionado, const QItemSelection naoSelecionado)
 {
-    QModelIndexList indexes = ui->tableView->selectionModel()->selection().indexes();
-
-    codParaExcluir.clear();
-
-    for (int i = 0; i < indexes.count(); ++i)
-        if (indexes.at(i).data(0).type() == QVariant::Int)
-            codParaExcluir << indexes.at(i).data(0).toString();
-
-    ui->button_excluir->setEnabled(true);
+    if (selecionado.count() > 0)
+    {
+        QModelIndexList list = selecionado.indexes();
+        QModelIndex index =  list.at(0);
+        codParaExcluir << index.data(0).toString();
+    }
 }
 
 void DialogExcluirRegistro::excluiItensSelecionados()
@@ -130,9 +126,14 @@ void DialogExcluirRegistro::excluiItensSelecionados()
 
     if (outputList.isEmpty())
     {
-        QMessageBox::information(this, "Registro (s) Deletado (s) com Sucesso",
-                                 "O (s) registro (s) selecionado (s) foi (ram) apagado (s) do banco de dados",
-                                 QMessageBox::Ok);
+
+        QMessageBox msgbox(this);
+        msgbox.setText("Registros excluídos com sucesso.");
+        msgbox.setInformativeText("Para mais detalhes, clique no botão abaixo.");
+        msgbox.setDetailedText(codParaExcluir.takeLast());
+        msgbox.setStandardButtons(QMessageBox::Ok);
+        msgbox.exec();
+
         model->setQuery(model->query().lastQuery(), QSqlDatabase::database("default"));
         emit registroExcluido(tabela);
     }

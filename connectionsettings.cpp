@@ -7,6 +7,21 @@ ConnectionSettings::ConnectionSettings(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    ui->button_clear->setEnabled(verificaCamposSujos());
+    ui->manter_conectado->setEnabled(verificaCamposPreenchidos());
+
+    if (QSqlDatabase::database("default").isOpen())
+    {
+        ui->button_conn->setEnabled(false);
+        ui->button_disconn->setEnabled(true);
+    }
+    else
+    {
+        ui->button_conn->setEnabled(verificaCamposPreenchidos());
+        ui->button_disconn->setEnabled(false);
+
+    }
+
     settings = new QSettings;
 
     // Conecta os Slots para salvar o conteudo dos input_text
@@ -20,10 +35,8 @@ ConnectionSettings::ConnectionSettings(QWidget *parent) :
             this, SLOT(saveUsername(QString)));
     connect(ui->input_password, SIGNAL(textChanged(QString)),
             this, SLOT(savePassword(QString)));
-    connect(ui->manter_conectado, SIGNAL(toggled(bool)),
-            this, SLOT(manterConectado(bool)));
 
-    // Seta os input_texts com algum conteudo salvo anteriormente
+    // Preenche os input_texts com algum conteudo salvo anteriormente
     ui->input_host->setText(settings->value("Host").toString());
     ui->input_port->setText(settings->value("Port").toString());
     ui->input_database->setText(settings->value("Database").toString());
@@ -31,38 +44,72 @@ ConnectionSettings::ConnectionSettings(QWidget *parent) :
     ui->input_password->setText(settings->value("Password").toString());
     ui->manter_conectado->setChecked(settings->value("Conectar").toBool());
 
-    // Conectar e Desconectar a base de dados
-    connect(ui->button_conn, SIGNAL(released()), this,
+    connect(ui->input_host, SIGNAL(textChanged(QString)), // Host
+            this, SLOT(tentaHabilitarBotaoConectar()));
+    connect(ui->input_host, SIGNAL(textChanged(QString)), // Host
+            this, SLOT(tentaHabilitarBotaoLimpar()));
+    connect(ui->input_port, SIGNAL(textChanged(QString)), // Porta
+            this, SLOT(tentaHabilitarBotaoConectar()));
+    connect(ui->input_port, SIGNAL(textChanged(QString)), // Porta
+            this, SLOT(tentaHabilitarBotaoLimpar()));
+    connect(ui->input_database, SIGNAL(textChanged(QString)), // Base de dados
+            this, SLOT(tentaHabilitarBotaoConectar()));
+    connect(ui->input_database, SIGNAL(textChanged(QString)), // Base de dados
+            this, SLOT(tentaHabilitarBotaoLimpar()));
+    connect(ui->input_username, SIGNAL(textChanged(QString)), // Nome de usuário
+            this, SLOT(tentaHabilitarBotaoConectar()));
+    connect(ui->input_username, SIGNAL(textChanged(QString)), // Nome de usuário
+            this, SLOT(tentaHabilitarBotaoLimpar()));
+    connect(ui->input_password, SIGNAL(textChanged(QString)), // Senha
+            this, SLOT(tentaHabilitarBotaoConectar()));
+    connect(ui->input_password, SIGNAL(textChanged(QString)), // Senha
+            this, SLOT(tentaHabilitarBotaoLimpar()));
+
+    connect(ui->button_conn, SIGNAL(released()), this, // Botão conectar pressionado
             SLOT(buttonConnectPressed()));
-    connect(ui->button_disconn, SIGNAL(released()), this,
+    connect(ui->button_disconn, SIGNAL(released()), this, // Botão desconectar pressionado
             SLOT(buttonDisconnectPressed()));
-    connect(ui->button_clear, SIGNAL(released()), this,
+    connect(ui->button_clear, SIGNAL(released()), this, // Botão limpar pressionado
             SLOT(buttonClearPressed()));
-
-    connect(ui->input_host, SIGNAL(textChanged(QString)),
-            this, SLOT(habilitaBotaoConectar()));
-    connect(ui->input_port, SIGNAL(textChanged(QString)),
-            this, SLOT(habilitaBotaoConectar()));
-    connect(ui->input_database, SIGNAL(textChanged(QString)),
-            this, SLOT(habilitaBotaoConectar()));
-    connect(ui->input_username, SIGNAL(textChanged(QString)),
-            this, SLOT(habilitaBotaoConectar()));
-    connect(ui->input_password, SIGNAL(textChanged(QString)),
-            this, SLOT(habilitaBotaoConectar()));
-
-    if (verificaCampos())
-        if (QSqlDatabase::database("default").isOpen())
-        {
-            ui->button_disconn->setEnabled(true);
-            ui->manter_conectado->setEnabled(true);
-        }
-        else
-            ui->button_conn->setEnabled(true);
+    connect(ui->manter_conectado, SIGNAL(toggled(bool)), // Manter Conectado
+            this, SLOT(manterConectado(bool)));
 }
 
 ConnectionSettings::~ConnectionSettings()
 {
     delete ui;
+}
+
+bool ConnectionSettings::verificaCamposPreenchidos()
+{
+    if (ui->input_host->text().isEmpty())
+        return false;
+    if (ui->input_port->text().isEmpty())
+        return false;
+    if (ui->input_database->text().isEmpty())
+        return false;
+    if (ui->input_username->text().isEmpty())
+        return false;
+    if (ui->input_password->text().isEmpty())
+        return false;
+
+    return true;
+}
+
+bool ConnectionSettings::verificaCamposSujos()
+{
+    if (!ui->input_host->text().isEmpty())
+        return true;
+    if (!ui->input_port->text().isEmpty())
+        return true;
+    if (!ui->input_database->text().isEmpty())
+        return true;
+    if (!ui->input_username->text().isEmpty())
+        return true;
+    if (!ui->input_password->text().isEmpty())
+        return true;
+
+    return false;
 }
 
 void ConnectionSettings::saveHost(QString text)
@@ -80,14 +127,14 @@ void ConnectionSettings::saveUsername(QString text)
     settings->setValue("Username", text);
 }
 
-void ConnectionSettings::savePassword(QString text)
-{
-    settings->setValue("Password", text);
-}
-
 void ConnectionSettings::saveDbName(QString text)
 {
     settings->setValue("Database", text);
+}
+
+void ConnectionSettings::savePassword(QString text)
+{
+    settings->setValue("Password", text);
 }
 
 void ConnectionSettings::manterConectado(bool value)
@@ -95,25 +142,25 @@ void ConnectionSettings::manterConectado(bool value)
     settings->setValue("Conectar", value);
 }
 
-void ConnectionSettings::habilitaBotaoConectar()
+void ConnectionSettings::tentaHabilitarBotaoConectar()
 {
-    if (verificaCampos())
-        ui->button_conn->setEnabled(true);
-    else
-        ui->button_conn->setEnabled(false);
+    ui->button_conn->setEnabled(verificaCamposPreenchidos());
+}
+
+void ConnectionSettings::tentaHabilitarBotaoLimpar()
+{
+    ui->button_clear->setEnabled(verificaCamposSujos());
 }
 
 void ConnectionSettings::buttonConnectPressed()
 {
-    ui->button_conn->setEnabled(false);
     if (tentaConectar())
     {
         emit conectadoABaseDeDados();
+        ui->button_conn->setEnabled(false); // Desabilita botão conectar
         ui->button_disconn->setEnabled(true); // Habilita botao Desconectar
         ui->manter_conectado->setEnabled(true); // Habilita botao Manter Conectado
     }
-    else
-        ui->button_conn->setEnabled(true); // Habilita botao Conectar
 }
 
 void ConnectionSettings::buttonDisconnectPressed()
@@ -124,37 +171,21 @@ void ConnectionSettings::buttonDisconnectPressed()
 
     ui->button_disconn->setEnabled(false);
     ui->button_conn->setEnabled(true);
-    ui->manter_conectado->setChecked(false);
     ui->manter_conectado->setEnabled(false);
+    ui->manter_conectado->setChecked(false);
 }
 
 void ConnectionSettings::buttonClearPressed()
 {
     buttonDisconnectPressed();
 
-    settings->clear();
-
     ui->input_host->clear();
     ui->input_port->clear();
     ui->input_username->clear();
     ui->input_password->clear();
     ui->input_database->clear();
-}
 
-bool ConnectionSettings::verificaCampos()
-{
-    if (ui->input_host->text().isEmpty())
-        return false;
-    if (ui->input_port->text().isEmpty())
-        return false;
-    if (ui->input_database->text().isEmpty())
-        return false;
-    if (ui->input_username->text().isEmpty())
-        return false;
-    if (ui->input_password->text().isEmpty())
-        return false;
-
-        return true;
+    settings->clear();
 }
 
 bool ConnectionSettings::tentaConectar()

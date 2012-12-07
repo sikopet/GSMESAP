@@ -2,7 +2,9 @@
 #define EXCLUIRREGISTRO_H
 
 #include <QWidget>
+#include <QList>
 #include <QtSql>
+#include <QModelIndex>
 #include <QMessageBox>
 
 #include "gsmesap_enums.h"
@@ -30,7 +32,7 @@ private:
 private slots:
     void verificaCampo();
     void procuraRegistro();
-    void itensSelecionados(const QItemSelection &, const QItemSelection &);
+    void itensSelecionados(const QItemSelection selecionado, const QItemSelection naoSelecionado);
     void excluiItensSelecionados();
 
 signals:
